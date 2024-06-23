@@ -1,7 +1,11 @@
-import React from "react";
+import { useContext } from "react";
+import { NoteContext } from "../../NoteContext/NoteContext";
 import { useForm } from "react-hook-form";
+import { v4 as uuidv4 } from 'uuid';
 
 function Modal({ toggleModal }) {
+  const { setNotes } = useContext(NoteContext);
+
   const {
     register,
     handleSubmit,
@@ -9,11 +13,27 @@ function Modal({ toggleModal }) {
     formState: { errors, isValid },
   } = useForm();
 
+  // Function to format the current date
+  const getCurrentDate = () => {
+    const date = new Date();
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
   const onSubmit = (data) => {
     if (isValid) {
-      console.log(data);
+      // Add current date to the note data
+      const newNote = {
+        ...data,
+        date: getCurrentDate(),
+        id: uuidv4(),
+      };
       reset();
-      toggleModal()
+      setNotes((prevNotes) => [...prevNotes, newNote]);
+      toggleModal();
     }
   };
 
@@ -64,7 +84,7 @@ function Modal({ toggleModal }) {
             <button
               type="button"
               onClick={toggleModal}
-              className=" text-white font-semibold py-2 px-4 rounded"
+              className="text-white font-semibold py-2 px-4 rounded"
             >
               Cancel
             </button>
