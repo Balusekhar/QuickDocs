@@ -13,6 +13,12 @@ export default function App() {
     setModalVisible((isModalVisible) => !isModalVisible);
   };
 
+  const deleteNote = (id)=>{
+    const updatedNotes = notes.filter(note => note.id !== id);
+    setNotes(updatedNotes);
+    console.log("Deleted note:", noteToDelete);
+  }
+
   return (
     <NoteContext.Provider value={{ notes, setNotes }}>
       <div className="relative h-screen w-screen bg-zinc-800">
@@ -22,7 +28,7 @@ export default function App() {
           {isModalVisible ? <Modal toggleModal={toggleModal} /> : null}
           <div className="flex flex-wrap">
             {notes.map((note, index) => (
-              <Card key={index} note={note} />
+              <Card key={index} note={note} deleteNote={deleteNote}  />
             ))}
           </div>
         </div>
