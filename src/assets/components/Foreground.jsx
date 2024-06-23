@@ -2,7 +2,7 @@ import React from 'react'
 
 function Foreground() {
   return (
-    <div className="absolute z-[3] h-screen w-screen bg-transparent">
+    <div  className="absolute z-[3] h-screen w-screen bg-transparent">
         
     </div>
   )
